@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://unpkg.com/sanitize.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Algorithm Visualizer</title>
+    <link href="src/styles.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="jumbotron">
+        <h1 class="display-3">Algorithm Visualizer</h1>
+        <p class="lead">Select an algorithm to visualizer</p>
+       
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="btn-group col-3" role="group" aria-label="algorithms-searching">
+                <button id="option-linear-search" type="button" class="btn btn-secondary" aria-expanded="false"
+                    aria-controls="linear-search-view">Linear Search</button>
+                <button id="option-binary-search" type="button" class="btn btn-secondary" aria-expanded="false"
+                    aria-controls="binary-search-view">Binary Search</button>
+            </div>
+
+            <div class="btn-group" role="group" aria-label="algorithms-sorting">
+                <button id="option-selection-sort" type="button" class="btn btn-secondary" aria-expanded="false"
+                    aria-controls="selection-sort-view">Selection Sort</button>
+                <button id="option-bubble-sort" type="button" class="btn btn-secondary" aria-expanded="false" aria-controls="bubble-sort-view">Bubble
+                    Sort</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="collapse" id="linear-search-view" >
+        <div class="card card-body">
+
+            <div class="row">
+                <div class="input-group mb-3 generate-linear col-md-4">
+                    <input id="generate-linear-input" type="number" class="form-control" placeholder="10-100"
+                        aria-label="generate-array" aria-describedby="generate-linear">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="button-generate-linear">Generate
+                            Array</button>
+                    </div>
+                </div>
+
+                <div class="input-group mb-3 find-linear-grp col-md-4">
+                    <input id="find-linear-input" type="number" class="form-control" placeholder="1-100"
+                        aria-label="find-number" aria-describedby="button-linear-find>
+                    <div class=" input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="button-linear-find">Find
+                        Number</button>
+                </div>
+                <button id="reset-linear-search" type="button" class="btn btn-warning" style="width: 80px; height: 40px; color:blanchedalmond;">Reset</button>
+            </div>
+        </div>
+
+
+        <div class="col-xs-12 section linear-array-section">
+            <div class="l-number">1</div>
+            <div class="l-number">2</div>
+            <div class="l-number">3</div>
+            <div class="l-number">4</div>
+            <div class="l-number">5</div>
+            <div class="l-number">6</div>
+        </div>
+
+    </div>
+    </div>
+
+    <div class="collapse" id="binary-search-view" >
+        <div class="card card-body">
+
+            <div class="row">
+                <div class="input-group mb-3 generate-binary col-md-4">
+                    <input id="generate-binary-input" type="number" class="form-control" placeholder="1-100"
+                        aria-label="binary-generate-array" aria-describedby="button-generate-binary">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="button-generate-binary">Generate
+                            Array</button>
+                    </div>
+                </div>
+
+                <div class="input-group mb-3 find-binary-input-grp col-md-4">
+                    <input id="find-binary-input" type="number" class="form-control" placeholder="1-100"
+                        aria-label="find-number" aria-describedby="button-find-binary>
+                    <div class=" input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="button-binary-find">Find Number</button>
+                </div>
+
+                <button id="reset-binary-search" type="button" class="btn btn-warning" style="width: 80px; height: 40px; color:blanchedalmond;">Reset</button>
+            </div>
+        </div>
+
+
+        <div class="col-xs-12 section binary-array-section">
+            <div class="b-number">1</div>
+            <div class="b-number">2</div>
+            <div class="b-number">3</div>
+            <div class="b-number">4</div>
+            <div class="b-number">5</div>
+            <div class="b-number">6</div>
+        </div>
+
+    </div>
+
+    <div class="collapse" id="bubble-sort-view" >
+        <div class="card card-body">
+            <div class="row">
+                <div class="input-group mb-3 generate-bubble col-md-4">
+                    <input id="generate-bubble-input" type="number" class="form-control" placeholder="10-50"
+                        aria-label="bubble-generate-array" aria-describedby="button-generate-bubble">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="button-generate-bubble">Generate
+                            Array</button>
+
+                        <button class="btn btn-outline-secondary" type="button" id="button-bubble-sort">Sort</button>
+                    </div>
+                </div>
+                <button id="reset-bubble-sort" type="button" class="btn btn-warning" style="width: 80px; height: 40px; color:blanchedalmond;">Reset</button>
+            </div>
+        </div>
+        <section class="data-container-bubble-sort"></section>
+    </div>
+
+    </div>
+
+    <div class="collapse" id="selection-sort-view" >
+        <div class="card card-body">
+            <div class="row">
+                <div class="input-group mb-3 generate-selection col-md-4">
+                    <input id="generate-selection-input" type="number" class="form-control" placeholder="10-40"
+                        aria-label="selection-generate-array" aria-describedby="button-generate-selection">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="button-generate-selection">Generate
+                            Array</button>
+
+                        <button class="btn btn-outline-secondary" type="button" id="button-selection-sort">Sort</button>
+                    </div>
+                </div>
+                <button id="reset-selection-sort" type="button" class="btn btn-warning" style="width: 80px; height: 40px; color:blanchedalmond;">Reset</button>
+            </div>
+        </div>
+        <div class="data-container-selection-sort"></div>
+    </div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+<script src="src/index.js"></script>
+
+</html>
