@@ -7,17 +7,30 @@ const containerSelectionSort = document.querySelector(
 
 const buttonLinearGenerate = document.querySelector(".button-generate-linear");
 
+let stopBubbleSort = false;
+let stopSelectionSort = false;
+let stopLinearSearch = false;
+let stopBinarySearch = false;
+
 $("#option-linear-search").click(function (e) {
   e.preventDefault();
-  console.log("inside option linear search click");
-  $("#bubble-sort-view").collapse('hide');
-  $("#binary-search-view").collapse('hide');
-  $("#selection-sort-view").collapse('hide');
+  stopBinarySearch = true;
+  stopBubbleSort = true;
+  stopSelectionSort = true;
+  stopLinearSearch = false;
+  // console.log("inside option linear search click");
+  $("#bubble-sort-view").collapse("hide");
+  $("#binary-search-view").collapse("hide");
+  $("#selection-sort-view").collapse("hide");
   $("#linear-search-view").collapse("show");
 });
 
 $("#option-binary-search").on("click", function (e) {
   e.preventDefault();
+  stopSelectionSort = true;
+  stopBubbleSort = true;
+  stopLinearSearch = true;
+  stopBinarySearch = false;
   $("#bubble-sort-view").collapse("hide");
   $("#linear-search-view").collapse("hide");
   $("#selection-sort-view").collapse("hide");
@@ -26,6 +39,10 @@ $("#option-binary-search").on("click", function (e) {
 
 $("#option-selection-sort").on("click", function (e) {
   e.preventDefault();
+  stopBinarySearch = true;
+  stopBubbleSort = true;
+  stopLinearSearch = true;
+  stopSelectionSort = false;
   $("#bubble-sort-view").collapse("hide");
   $("#binary-search-view").collapse("hide");
   $("#linear-search-view").collapse("hide");
@@ -34,94 +51,92 @@ $("#option-selection-sort").on("click", function (e) {
 
 $("#option-bubble-sort").on("click", function (e) {
   e.preventDefault();
+  stopBinarySearch = true;
+  stopSelectionSort = true;
+  stopLinearSearch = true;
+  stopBubbleSort = false;
   $("#linear-search-view").collapse("hide");
   $("#binary-search-view").collapse("hide");
   $("#selection-sort-view").collapse("hide");
   $("#bubble-sort-view").collapse("show");
 });
 
-
 $("#bubble-sort-view").on("shown.bs.collapse", function () {
-  console.log("Opened");
+  // console.log("Opened");
   $(".data-container-bubble-sort").empty();
 });
 
 $("#bubble-sort-view").on("hidden.bs.collapse", function () {
-  console.log("Closed");
+  // console.log("Closed");
   $(".data-container-bubble-sort").empty();
 });
 
-
-const stopBubbleSort = false;
-const stopQuickSort = false;
-
 $("#button-generate-linear").on("click", function (event) {
   event.preventDefault();
+  stopLinearSearch = false;
   generateArray();
 });
 
 $("#button-generate-binary").on("click", function (event) {
   event.preventDefault();
-  console.log("trying to generate binary");
+  // console.log("trying to generate binary");
+  stopBinarySearch = false;
   generateBinaryArray();
 });
 
 $("#button-linear-find").on("click", function (e) {
   e.preventDefault();
-  console.log("trying to find using linear search");
+  // console.log("trying to find using linear search");
   findNumberUsingLinearSearch();
 });
 
 $("#button-binary-find").on("click", function (e) {
   e.preventDefault();
-  console.log("trying to find using binary search");
+  // console.log("trying to find using binary search");
   findNumber();
 });
 
 $("#button-bubble-sort").on("click", function (e) {
   e.preventDefault();
   blocks = document.querySelectorAll(".block");
-  console.log(blocks)
-  if(blocks.length < 10){
-    alert('Please generate array before sorting');
+  // console.log(blocks);
+  if (blocks.length < 10) {
+    alert("Please generate array before sorting");
   }
   bubbleSort();
 });
 
 $("#button-generate-bubble").on("click", function (e) {
   e.preventDefault();
-  console.log("inside generate bubble btn click");
+  // console.log("inside generate bubble btn click");
   $(".data-container-bubble-sort").empty();
   const num = parseInt($("#generate-bubble-input").val());
+  stopBubbleSort = false;
   generateBlocks(num, containerBubbleSort);
 });
 
 $("#button-generate-selection").on("click", function (e) {
   e.preventDefault();
-  console.log("inside generate selection btn click");
+  // console.log("inside generate selection btn click");
   $(".data-container-selection-sort").empty();
   const num = parseInt($("#generate-selection-input").val());
+  stopSelectionSort = false;
   generateBlocks(num, containerSelectionSort);
 });
 
 $("#button-selection-sort").on("click", function (e) {
   e.preventDefault();
   blocks = document.querySelectorAll(".block");
-  console.log(blocks)
-  if(blocks.length < 10){
-    alert('Please generate array before sorting');
+  // console.log(blocks);
+  if (blocks.length < 10) {
+    alert("Please generate array before sorting");
   }
   selectionSort();
 });
 
 
-$("#button-generate-linear").on("click", function (e) {
-  e.preventDefault();
-  console.log("button working");
-});
-
 function generateBlocks(num, container) {
-  console.log("inside generate bubble ", num);
+  // console.log("inside generate bubble ", num);
   if (num && typeof num !== "number") {
     alert("First argument must be a typeof Number");
     return;
@@ -202,6 +217,10 @@ async function bubbleSort(delay = 100) {
   let blocks = document.querySelectorAll(".block");
   for (let i = 0; i < blocks.length - 1; i += 1) {
     for (let j = 0; j < blocks.length - i - 1; j += 1) {
+      if (stopBubbleSort) {
+        break;
+      }
+
       blocks[j].style.backgroundColor = "#FF4949";
       blocks[j + 1].style.backgroundColor = "#FF4949";
 
@@ -239,6 +258,9 @@ async function selectionSort(delay = 300) {
     let min = i;
 
     for (let j = i + 1; j < len; j++) {
+      if (stopSelectionSort) {
+        break;
+      }
       blocks[min].style.backgroundColor = "#FF4949";
       blocks[j].style.backgroundColor = "#FF4949";
       await new Promise((resolve) =>
@@ -249,7 +271,7 @@ async function selectionSort(delay = 300) {
 
       const value1 = Number(blocks[min].childNodes[0].innerHTML);
       const value2 = Number(blocks[j].childNodes[0].innerHTML);
-      console.log("checking values :", value1, value2);
+      // console.log("checking values :", value1, value2);
       if (value1 > value2) {
         blocks[min].style.backgroundColor = "#58B7FF";
         min = j;
@@ -314,13 +336,13 @@ function generateArray() {
     $generateButton.removeClass("success");
     $generateGroup.addClass("has-error");
     $generateButton.addClass("error");
-    alert('Please enter value between 10-100')
+    alert("Please enter value between 10-100");
   }
 }
 
 function generateBinaryArray() {
   //variables
-  console.log("inside binary gen");
+  // console.log("inside binary gen");
   var $generateGroup = $(".generate-binary");
   var $generateInput = $("#generate-binary-input");
   var $generateInputVal = $generateInput.val();
@@ -365,7 +387,7 @@ function generateBinaryArray() {
     $generateButton.removeClass("success");
     $generateGroup.addClass("has-error");
     $generateButton.addClass("error");
-    alert('Please enter value between 10-100')
+    alert("Please enter value between 10-100");
   }
 }
 
@@ -378,7 +400,7 @@ async function findNumberUsingLinearSearch() {
   var $findGroup = $(".find-linear-grp");
   var $findButton = $("#button-linear-find");
   var max = parseInt($generateInputVal);
-  console.log($generateInputVal, $findInputVal);
+  // console.log($generateInputVal, $findInputVal);
 
   if (
     $.isNumeric($findInputVal) &&
@@ -390,6 +412,9 @@ async function findNumberUsingLinearSearch() {
 
     // const numbers = document.getElementsByTagName('l-number');
     for (let i = 0; i < $generateInputVal; i++) {
+      if (stopLinearSearch) {
+        break;
+      }
       var $currentNumber = $(".l-number:nth-child(" + i + ")");
       await sleep(animationSpeed);
       $currentNumber.css({
@@ -398,11 +423,11 @@ async function findNumberUsingLinearSearch() {
         "font-weight": "bold",
       });
       await sleep(animationSpeed);
-      console.log("loop is running", i, $currentNumber.text(), $findInputVal);
+      // console.log("loop is running", i, $currentNumber.text(), $findInputVal);
       //if guessed number equals find number then stop
       if (parseInt($currentNumber.text()) === parseInt($findInputVal)) {
         //found number animation
-        console.log("found the correct number");
+        // console.log("found the correct number");
         $currentNumber.css({
           color: "#fff",
           "background-color": "#5cb85c",
@@ -412,7 +437,7 @@ async function findNumberUsingLinearSearch() {
         });
         break;
       } else {
-        console.log("inside linear else block");
+        // console.log("inside linear else block");
         //wrong number animation
         $currentNumber.css({
           color: "#d43f3a",
@@ -438,7 +463,7 @@ async function findNumber() {
   var min = 1;
   var max = parseInt($generateInputVal);
   var guess; //console.log(min,max,parseInt($guessNumber.text()));
-  console.log($generateInputVal, $findInputVal);
+  // console.log($generateInputVal, $findInputVal);
   //validation
   if (
     $.isNumeric($findInputVal) &&
@@ -461,6 +486,9 @@ async function findNumber() {
     // --- binary search loop ---
     while (max >= min) {
       //compute guess as the average of max and min
+      if (stopBinarySearch) {
+        break;
+      }
       guess = Math.floor((min + max) / 2);
       var $guessNumber = $(".b-number:nth-child(" + guess + ")");
       //guessed number animation
@@ -531,45 +559,71 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-
-
-
 // reset btn click listeners
 
-$("#reset-linear-search").click(function(e){
+$("#reset-linear-search").click(function (e) {
   e.preventDefault();
-  repeat($("#generate-linear-input"),$("#find-linear-input"),$("#button-generate-linear"),$("#button-linear-find"),$(".linear-array-section"))
-})
+  stopLinearSearch = true;
+  repeat(
+    $("#generate-linear-input"),
+    $("#find-linear-input"),
+    $("#button-generate-linear"),
+    $("#button-linear-find"),
+    $(".linear-array-section")
+  );
+});
 
-$("#reset-binary-search").click(function(e){
+$("#reset-binary-search").click(function (e) {
   e.preventDefault();
-  repeat($("#generate-binary-input"),$("#find-binary-input"),$("#button-generate-binary"),$("#button-binary-find"),$(".binary-array-section"))
-})
+  stopBinarySearch = true;
+  repeat(
+    $("#generate-binary-input"),
+    $("#find-binary-input"),
+    $("#button-generate-binary"),
+    $("#button-binary-find"),
+    $(".binary-array-section")
+  );
+});
 
-$("#reset-selection-sort").click(function(e){
+$("#reset-selection-sort").click(function (e) {
   e.preventDefault();
-  repeat($("#generate-selection-input"),null,$("#button-generate-selection"),$("#button-selection-sort"),$(".data-container-selection-sort"))
-})
+  stopSelectionSort = true;
+  repeat(
+    $("#generate-selection-input"),
+    null,
+    $("#button-generate-selection"),
+    $("#button-selection-sort"),
+    $(".data-container-selection-sort")
+  );
+});
 
-$("#reset-linear-search").click(function(e){
+$("#reset-bubble-sort").click(function (e) {
   e.preventDefault();
-  repeat($("#generate-linear-input"),$("#find-linear-input"),$("#button-generate-linear"),$("#button-linear-find"),$(".linear-array-section"))
-})
+  stopBubbleSort = true;
+  repeat(
+    $("#generate-bubble-input"),
+    null,
+    $("#button-generate-bubble"),
+    $("#button-bubble-sort"),
+    $(".data-container-bubble-sort")
+  );
+});
 
-function repeat(genInput,findInput,genBtn,findbtn,arraySection) {
-
+function repeat(genInput, findInput, genBtn, findbtn, arraySection) {
   //enable find input group
-  genInput.prop('disabled', false);
-  if(findInput){
-    findInput.prop('disabled', false);
+  genInput.prop("disabled", false);
+  if (findInput) {
+    findInput.prop("disabled", false);
   }
-  genBtn.prop('disabled', false);
-  
-  findbtn.prop('disabled',false)
+  genBtn.prop("disabled", false);
+
+  findbtn.prop("disabled", false);
   //clear array section
-  console.log(arraySection);
+  // console.log(arraySection);
   arraySection.empty();
- 
-  genInput.val('');
-  findInput.val('');
+
+  genInput.val("");
+  if (findInput) {
+    findInput.val("");
+  }
 }
